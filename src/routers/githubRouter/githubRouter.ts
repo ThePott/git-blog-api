@@ -6,9 +6,13 @@ const githubRouter = Router()
 
 githubRouter.get("/", async (req, res) => {
     try {
-        const response = await octokit.request("GET /repos/{owner}/{repo}", {
+        const response = await octokit.rest.repos.getContent({
             owner: GITHUB_OWNER,
             repo: GITHUB_REPO,
+            path: "src/tiny-knowledge/readonly-vs-Readonly.md",
+            mediaType: {
+                format: "raw",
+            },
         })
 
         res.status(200).json({ data: response.data })
