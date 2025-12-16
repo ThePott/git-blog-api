@@ -1,4 +1,5 @@
 import express from "express"
+import "./github.js"
 
 const app = express()
 
