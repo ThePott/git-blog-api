@@ -1,0 +1,28 @@
+{
+    "name": "git-blog-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "tsx watch ./src/server.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "devDependencies": {
+        "@eslint/js": "^9.39.2",
+        "@types/express": "^5.0.6",
+        "@types/node": "^25.0.2",
+        "eslint": "^9.39.2",
+        "globals": "^16.5.0",
+        "tsx": "^4.21.0",
+        "typescript-eslint": "^8.50.0"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^5.2.1"
+    }
+}
