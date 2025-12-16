@@ -9,3 +9,5 @@ const {
     data: { login },
 } = await octokit.rest.users.getAuthenticated()
 console.log("Hello, %s", login)
+
+export default octokit
