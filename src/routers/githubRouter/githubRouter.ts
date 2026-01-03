@@ -24,10 +24,29 @@ githubRouter.get("/", async (req, res) => {
 
 githubRouter.get("/tree", async (req, res) => {
     try {
+        const type = String(req.query.type)
+
         const response = await octokit.rest.git.getTree({
             owner: GITHUB_OWNER,
             repo: GITHUB_REPO,
             tree_sha: GITHUB_TREE_SHA,
+            recursive: "true",
+        })
+
+        const treeArray = type ? response.data.tree.filter((el) => el.type === type) : response.data.tree
+        res.status(200).json(treeArray)
+    } catch (error) {
+        res.status(500).json({ message: "github failed", error })
+    }
+})
+
+githubRouter.get<{ pathSplat: string[] }>("/content/*pathSplat", async (req, res) => {
+    try {
+        const { pathSplat } = req.params
+        const response = await octokit.rest.repos.getContent({
+            owner: GITHUB_OWNER,
+            repo: GITHUB_REPO,
+            path: pathSplat.join("/"),
         })
         res.status(200).json(response.data)
     } catch (error) {
