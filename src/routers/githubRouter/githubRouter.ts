@@ -24,7 +24,7 @@ githubRouter.get("/", async (req, res) => {
 
 githubRouter.get("/tree", async (req, res) => {
     try {
-        const type = String(req.query.type)
+        const type: string = req.query.type ? String(req.query.type) : ""
 
         const response = await octokit.rest.git.getTree({
             owner: GITHUB_OWNER,
