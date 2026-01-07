@@ -43,7 +43,7 @@ githubRouter.get("/tree", async (req, res) => {
 })
 
 githubRouter.get<{ contentType: ContentType; pathSplat: string[] }>(
-    "/content/:contentType/*pathSplat",
+    "/content/:contentType{/*pathSplat}",
     async (req, res) => {
         try {
             const { contentType, pathSplat } = req.params
@@ -51,13 +51,14 @@ githubRouter.get<{ contentType: ContentType; pathSplat: string[] }>(
             const response = await octokit.rest.repos.getContent({
                 owner: GITHUB_OWNER,
                 repo: GITHUB_REPO,
-                path: pathSplat.join("/"),
+                path: pathSplat ? pathSplat.join("/") : "",
                 mediaType: {
                     format,
                 },
             })
             res.status(200).json(response.data)
         } catch (error) {
+            console.error(error)
             res.status(500).json({ message: "github failed", error })
         }
     },
