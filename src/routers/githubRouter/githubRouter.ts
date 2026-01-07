@@ -1,6 +1,8 @@
 import { GITHUB_OWNER, GITHUB_REPO, GITHUB_TREE_SHA } from "@/config/env.js"
 import octokit from "@/config/github.js"
 import { Router } from "express"
+import type { ContentType } from "./githubTypes.js"
+import { CONTENT_TYPE_TO_FORMAT } from "./githubConstants.js"
 
 const githubRouter = Router()
 
@@ -40,18 +42,29 @@ githubRouter.get("/tree", async (req, res) => {
     }
 })
 
-githubRouter.get<{ pathSplat: string[] }>("/content/*pathSplat", async (req, res) => {
-    try {
-        const { pathSplat } = req.params
-        const response = await octokit.rest.repos.getContent({
-            owner: GITHUB_OWNER,
-            repo: GITHUB_REPO,
-            path: pathSplat.join("/"),
-        })
-        res.status(200).json(response.data)
-    } catch (error) {
-        res.status(500).json({ message: "github failed", error })
-    }
+githubRouter.get<{ contentType: ContentType; pathSplat: string[] }>(
+    "/content/:contentType/*pathSplat",
+    async (req, res) => {
+        try {
+            const { contentType, pathSplat } = req.params
+            const format = CONTENT_TYPE_TO_FORMAT[contentType]
+            const response = await octokit.rest.repos.getContent({
+                owner: GITHUB_OWNER,
+                repo: GITHUB_REPO,
+                path: pathSplat.join("/"),
+                mediaType: {
+                    format,
+                },
+            })
+            res.status(200).json(response.data)
+        } catch (error) {
+            res.status(500).json({ message: "github failed", error })
+        }
+    },
+)
+
+githubRouter.get<{ pathSplat: string[] }>("/content/file/*pathSplat", async (req, res) => {
+    res.status(200).send("---- file good")
 })
 
 githubRouter.get("/markdown/specific-example", async (req, res) => {
