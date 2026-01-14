@@ -16,3 +16,5 @@ export const GITHUB_FINE_GRAINED_TOKEN = checkEnvVar(process.env.GITHUB_FINE_GRA
 export const GITHUB_OWNER = checkEnvVar(process.env.GITHUB_OWNER, "GITHUB_OWNER")
 export const GITHUB_REPO = checkEnvVar(process.env.GITHUB_REPO, "GITHUB_REPO")
 export const GITHUB_TREE_SHA = checkEnvVar(process.env.GITHUB_TREE_SHA, "GITHUB_TREE_SHA")
+
+export const DATABASE_URL = checkEnvVar(process.env.DATABASE_URL, "DATABASE_URL")
