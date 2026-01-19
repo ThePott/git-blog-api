@@ -42,4 +42,9 @@ monkeytypeRouter.get("/stats", async (req, res) => {
     }
 })
 
+monkeytypeRouter.get("/results", async (req, res) => {
+    const response = await monkeytype.get("https://api.monkeytype.com/results")
+    res.status(200).json(response.data)
+})
+
 export default monkeytypeRouter
