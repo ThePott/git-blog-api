@@ -22,20 +22,24 @@ enum MonkeytypeMode {
 }
 
 model MonkeytypeResult {
-    id             BigInt         @id @default(autoincrement())
-    monkeyTypeId   String         @unique
-    uid            String
-    wpm            Float
-    rawWpm         Float
-    charStats      Int[]
-    acc            Float
-    mode           MonkeytypeMode
-    mode2          String
-    timestamp      Int
-    testDuration   Float
-    afkDuration    Int
-    consistency    Float
-    keyConsistency Float
-    punctuation    Boolean?
-    isPb           Boolean?
+    id                    BigInt         @id @default(autoincrement())
+    monkeyTypeId          String         @unique
+    uid                   String
+    wpm                   Float
+    rawWpm                Float
+    charStats             Int[]
+    acc                   Float
+    mode                  MonkeytypeMode
+    mode2                 String
+    timestamp             BigInt
+    testDuration          Float
+    afkDuration           Int?
+    restartCount          Int?
+    incompleteTestSeconds Int?
+    quoteLength           Int?
+    funbox                String[]
+    consistency           Float
+    keyConsistency        Float
+    punctuation           Boolean?
+    isPb                  Boolean?
 }

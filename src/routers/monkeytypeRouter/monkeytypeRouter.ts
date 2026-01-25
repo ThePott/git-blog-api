@@ -1,4 +1,5 @@
 import { headerlessMonkeytype, monkeytype } from "@/config/axios.js"
+import { updateMonkeytypeResult } from "@/task/dailyMonkeytypeTask/index.js"
 import { AxiosError } from "axios"
 import { Router } from "express"
 
@@ -45,6 +46,11 @@ monkeytypeRouter.get("/stats", async (req, res) => {
 monkeytypeRouter.get("/results", async (req, res) => {
     const response = await monkeytype.get("https://api.monkeytype.com/results")
     res.status(200).json(response.data)
+})
+
+monkeytypeRouter.get("/dev/results/update", async (req, res) => {
+    await updateMonkeytypeResult()
+    res.status(200).send("---- good")
 })
 
 export default monkeytypeRouter
