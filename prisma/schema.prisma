@@ -12,3 +12,30 @@ generator client {
 datasource db {
     provider = "postgresql"
 }
+
+enum MonkeytypeMode {
+    time
+    words
+    quote
+    zen
+    custom
+}
+
+model MonkeytypeResult {
+    id             BigInt         @id @default(autoincrement())
+    monkeyTypeId   String         @unique
+    uid            String
+    wpm            Float
+    rawWpm         Float
+    charStats      Int[]
+    acc            Float
+    mode           MonkeytypeMode
+    mode2          String
+    timestamp      Int
+    testDuration   Float
+    afkDuration    Int
+    consistency    Float
+    keyConsistency Float
+    punctuation    Boolean?
+    isPb           Boolean?
+}
