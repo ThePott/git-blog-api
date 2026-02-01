@@ -1,7 +1,10 @@
 import { headerlessMonkeytype, monkeytype } from "@/config/axios.js"
-import { updateMonkeytypeResult } from "@/task/dailyMonkeytypeTask/index.js"
 import { AxiosError } from "axios"
 import { Router } from "express"
+import { dbFindManyMonkeytypeResult } from "../db/index.js"
+import { makeSerializable } from "@/lib/utils/make-serializable.js"
+import { updateMonkeytypeResult } from "../task/index.js"
+import type { MonkeytypeMode } from "../../../../generated/prisma/enums.js"
 
 const monkeytypeRouter = Router()
 
@@ -44,13 +47,22 @@ monkeytypeRouter.get("/stats", async (req, res) => {
 })
 
 monkeytypeRouter.get("/results", async (req, res) => {
-    const response = await monkeytype.get("https://api.monkeytype.com/results")
-    res.status(200).json(response.data)
+    const mode = req.query.mode ? (String(req.query.mode) as MonkeytypeMode) : null
+    const mode2 = req.query.mode2 ? String(req.query.mode2) : null
+    const result = await dbFindManyMonkeytypeResult({ mode, mode2 })
+    const serializable = makeSerializable(result)
+    res.status(200).json(serializable)
 })
 
-monkeytypeRouter.get("/dev/results/update", async (req, res) => {
+monkeytypeRouter.post("/sync", async (req, res) => {
     await updateMonkeytypeResult()
     res.status(200).send("---- good")
+})
+
+monkeytypeRouter.get("/test/results", async (req, res) => {
+    const response = await monkeytype.get("https://api.monkeytype.com/results")
+    const data = response.data
+    res.status(200).json(data)
 })
 
 export default monkeytypeRouter

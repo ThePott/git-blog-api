@@ -3,8 +3,8 @@ import cors, { type CorsOptions } from "cors"
 import "@/config/github.js"
 import githubRouter from "./routers/githubRouter/githubRouter.js"
 import debugRouter from "./routers/debugRouter/debugRouter.js"
-import monkeytypeRouter from "./routers/monkeytypeRouter/monkeytypeRouter.js"
-import repeatMonkeytypeResultUpdate from "./task/dailyMonkeytypeTask/index.js"
+import monkeytypeRouter from "./features/monkeytype/router/index.js"
+import repeatMonkeytypeResultUpdate from "./features/monkeytype/task/index.js"
 
 const app = express()
 
